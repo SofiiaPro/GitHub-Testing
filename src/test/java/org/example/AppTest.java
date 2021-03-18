@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AppTest {
     WebDriver driver;
-    private static String DEFAULT_ACCOUNT_PROPERTIES_FILE_PATH = "properties";
+    private static String propertiesFilePath = "properties";
     private static String login ;
     private static String password;
     private static String repositoryName ;
@@ -72,7 +72,7 @@ public class AppTest {
     }
 
     public static void loadAccountProperties() {
-        try(InputStream inputStream = new FileInputStream(DEFAULT_ACCOUNT_PROPERTIES_FILE_PATH)) {
+        try(InputStream inputStream = new FileInputStream(propertiesFilePath)) {
             Properties properties = new Properties();
             properties.load(inputStream);
             PAGE_URL=properties.getProperty("PAGE_URL");

@@ -1,11 +1,14 @@
 package org.example.webpages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.security.Key;
 
 public class CreateNewRepositoryPage extends Page{
     String repositoryName, language;
@@ -42,8 +45,10 @@ public class CreateNewRepositoryPage extends Page{
         gitIgnoreButton.click();
         filterIgnores.click();
         chooseFilter.click();
-        WebElement gitIgnoreFilter = driver.findElement(By.xpath(String.format("//span[contains(text(),'%s')]", language)));
-        gitIgnoreFilter.click();
+        WebElement gitIgnoreFilter = driver.findElement(By.xpath("//*[@id=\"context-ignore-filter-field\"]"));
+        gitIgnoreFilter.sendKeys(language);
+        chooseFilter.click();
+        chooseFilter.sendKeys(Keys.ENTER );
     }
     public ReadMePage pressCreateRepository(){
         wait.until(ExpectedConditions.elementToBeClickable(createRepositoryButton));
