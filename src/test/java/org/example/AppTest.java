@@ -8,13 +8,27 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-public class AppTest implements Values{
+public class AppTest {
     WebDriver driver;
+    private static String DEFAULT_ACCOUNT_PROPERTIES_FILE_PATH = "properties";
+    private static String login ;
+    private static String password;
+    private static String repositoryName ;
+    private static String language ;
+    private static String readmeText ;
+    private static String commitMessage;
+    private static String deleteInputText;
+    private static String PAGE_URL;
 
     @Before
     public void setup(){
+        loadAccountProperties();
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
@@ -24,7 +38,6 @@ public class AppTest implements Values{
 
     @Test
     public void applyAsDeveloper() {
-
         HomePage home = new HomePage(driver, PAGE_URL);
         home.pressSignInButton();
 
@@ -56,6 +69,24 @@ public class AppTest implements Values{
         SignOutPage signOutPage = new SignOutPage(driver);
         signOutPage.pressHeaderLink();
         signOutPage.pressSignOutButton();
+    }
+
+    public static void loadAccountProperties() {
+        try(InputStream inputStream = new FileInputStream(DEFAULT_ACCOUNT_PROPERTIES_FILE_PATH)) {
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            PAGE_URL=properties.getProperty("PAGE_URL");
+            login = properties.getProperty("login");
+            password = properties.getProperty("password");
+            repositoryName = properties.getProperty("repositoryName");
+            readmeText = properties.getProperty("readmeText");
+            commitMessage = properties.getProperty("commitMessage");
+            deleteInputText = properties.getProperty("deleteInputText");
+            language = properties.getProperty("language");
+
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
     }
 
     @After
