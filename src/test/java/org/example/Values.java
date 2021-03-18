@@ -1,5 +1,6 @@
 package org.example;
 
+
 public interface Values {
     String login = "sofiahrn242@gmail.com";
     String password = "";
